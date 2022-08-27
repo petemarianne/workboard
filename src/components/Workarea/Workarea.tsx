@@ -8,13 +8,12 @@ export const Workarea: React.FC = (): JSX.Element => {
     const [curId, setCurId] = useState<string>('');
     const [doubleClick, setDoubleClick] = useState<string>('');
     const [deleteClick, setDeleteClick] = useState<string>('');
-
-    const offset = [0,0];
+    const [offset, setOffset] = useState([0,0]);
     const posAndSize = {
         top: 0,
         left: 0,
-        width: 0,
-        height: 0,
+        right: 0,
+        bottom: 0,
     };
 
     const onDrop = (event: React.DragEvent<HTMLDivElement>): void => {
@@ -26,12 +25,10 @@ export const Workarea: React.FC = (): JSX.Element => {
     const onMouseDown = (event: React.MouseEvent<HTMLTextAreaElement, MouseEvent> | React.MouseEvent<HTMLDivElement, MouseEvent>, id: string): void => {
         setCurId(id);
         const item = id.startsWith('text') ? texts.filter(item => item.id === id)[0] : images.filter(item => item.id === id)[0];
-        if (item.position) {
-            offset[0] = - event.clientX + item.position.x;
-            offset[1] = - event.clientY + item.position.y;
-        } else {
-            offset[0] = event.clientX;
-            offset[1] = event.clientY;
+        if (item.position) setOffset([item.position.x - event.clientX, item.position.y - event.clientY]);
+        else {
+            const div = document.getElementById(id);
+            if (div) setOffset([div.getBoundingClientRect().left - event.clientX, div.getBoundingClientRect().top - event.clientY]);
         }
     }
 
@@ -75,9 +72,9 @@ export const Workarea: React.FC = (): JSX.Element => {
         posAndSize.top = workarea.getBoundingClientRect().top;
         posAndSize.left = workarea.getBoundingClientRect().left;
         const width = getComputedStyle(workarea).width;
-        posAndSize.width = Number(width.substring(0, width.length - 3));
+        posAndSize.right = Number(width.substring(0, width.length - 3)) + posAndSize.left;
         const height = getComputedStyle(workarea).height;
-        posAndSize.height = Number(width.substring(0, height.length - 3));
+        posAndSize.bottom = Number(width.substring(0, height.length - 3)) + posAndSize.top;
     }, []);
 
     return (

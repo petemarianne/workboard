@@ -12,7 +12,6 @@ const App: React.FC = (): JSX.Element => {
     useEffect(() => {
         if (localStorage.getItem('workBoardData')) {
             const data = JSON.parse(localStorage.getItem('workBoardData') as string);
-            console.log(data)
             setTexts(data.texts);
             setImages(data.images);
         } else {
