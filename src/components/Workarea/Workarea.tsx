@@ -9,12 +9,16 @@ export const Workarea: React.FC = (): JSX.Element => {
     const [doubleClick, setDoubleClick] = useState<string>('');
     const [deleteClick, setDeleteClick] = useState<string>('');
     const [offset, setOffset] = useState([0,0]);
-    const posAndSize = {
+    const [areaPosAndSize, setAreaPosAndSize] = useState({
         top: 0,
         left: 0,
-        right: 0,
-        bottom: 0,
-    };
+        width: 0,
+        height: 0,
+    });
+    const [itemSize, setItemSize] = useState({
+        width: 0,
+        height: 0,
+    });
 
     const onDrop = (event: React.DragEvent<HTMLDivElement>): void => {
         let id = event.dataTransfer.getData('id');
@@ -68,14 +72,37 @@ export const Workarea: React.FC = (): JSX.Element => {
     }
 
     useEffect(() => {
+        const obj = {
+            top: 0,
+            left: 0,
+            width: 0,
+            height: 0,
+        };
         const workarea = document.getElementsByClassName('workarea')[0];
-        posAndSize.top = workarea.getBoundingClientRect().top;
-        posAndSize.left = workarea.getBoundingClientRect().left;
+        obj.top = workarea.getBoundingClientRect().top;
+        obj.left = workarea.getBoundingClientRect().left;
         const width = getComputedStyle(workarea).width;
-        posAndSize.right = Number(width.substring(0, width.length - 3)) + posAndSize.left;
+        obj.width = Number(width.substring(0, width.length - 2));
         const height = getComputedStyle(workarea).height;
-        posAndSize.bottom = Number(width.substring(0, height.length - 3)) + posAndSize.top;
+        obj.height = Number(height.substring(0, height.length - 2));
+        console.log(obj)
+        setAreaPosAndSize(obj);
     }, []);
+
+    useEffect(() => {
+        const div = document.getElementById(curId);
+        if (div) {
+            const obj = {
+                height: 0,
+                width: 0,
+            }
+            const width = getComputedStyle(div).width;
+            obj.width = Number(width.substring(0, width.length - 2));
+            const height = getComputedStyle(div).height;
+            obj.height = Number(height.substring(0, height.length - 2));
+            setItemSize(obj);
+        }
+    }, [curId])
 
     return (
         <div className='workarea-container'>
@@ -98,8 +125,12 @@ export const Workarea: React.FC = (): JSX.Element => {
                             image.position
                                 ?
                                 {
-                                    top: `calc(${image.position.y}px - 40px - 13vh`,
-                                    left: `calc(${image.position.x}px - 37vw)`,
+                                    top: image.position.y <= areaPosAndSize.top ?
+                                        '0' : image.position.y + itemSize.height >= areaPosAndSize.height + areaPosAndSize.top ?
+                                            `${areaPosAndSize.height - itemSize.height}px` :`calc(${image.position.y}px - ${areaPosAndSize.top}px)`,
+                                    left: image.position.x <= areaPosAndSize.left ?
+                                        '0' : image.position.x + itemSize.width >= areaPosAndSize.width + areaPosAndSize.left ?
+                                            `${areaPosAndSize.width - itemSize.width - 4}px` :`calc(${image.position.x}px - ${areaPosAndSize.left}px)`,
                                     resize: doubleClick === image.id ? 'both' : undefined,
                                     overflow: doubleClick === image.id ? 'auto' : undefined,
                                     backgroundImage: image.image ? `url("${image.image}")` : undefined,
@@ -127,6 +158,7 @@ export const Workarea: React.FC = (): JSX.Element => {
                 {texts.map(text =>
                         <textarea
                             key={text.id}
+                            id={text.id}
                             className='text'
                             placeholder='Text...'
                             onDoubleClick={() => setDoubleClick(text.id)}
@@ -136,10 +168,13 @@ export const Workarea: React.FC = (): JSX.Element => {
                                 text.position
                                     ?
                                     {
-                                        top: `calc(${text.position.y}px - 40px - 13vh)`,
-                                        left: `calc(${text.position.x}px - 37vw)`,
-                                        resize: doubleClick === text.id ? 'both' : undefined,
-                                        overflow: doubleClick === text.id ? 'auto' : undefined,
+                                        top: text.position.y <= areaPosAndSize.top ?
+                                            '0' : text.position.y + itemSize.height >= areaPosAndSize.height + areaPosAndSize.top ?
+                                                `${areaPosAndSize.height - itemSize.height - 2}px` :`calc(${text.position.y}px - ${areaPosAndSize.top}px)`,
+                                        left: text.position.x <= areaPosAndSize.left ?
+                                            '0' : text.position.x + itemSize.width >= areaPosAndSize.width + areaPosAndSize.left ?
+                                                `${areaPosAndSize.width - itemSize.width - 7}px` :`calc(${text.position.x}px - ${areaPosAndSize.left}px)`,
+                                        resize: doubleClick === text.id ? 'both' : undefined
                                     }
                                     :
                                     undefined
