@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { TextItem, ImageItem } from './interfaces';
+import { ItemsContext } from './context/items-content';
+import './App.scss';
+import { Sidebar, Workarea } from './components';
+import { Button } from '@material-ui/core';
 
-function App() {
+const App: React.FC = (): JSX.Element => {
+  const [texts, setTexts] = useState<TextItem[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+        WorkBoard
+        <ItemsContext.Provider value={{texts, images, setImages, setTexts}}>
+            <div className='areas-wrapper'>
+                <Sidebar />
+                <Workarea />
+            </div>
+            <Button color='primary' variant='contained' className='button' onClick={() => {setTexts([]); setImages([]);}}>Reset</Button>
+        </ItemsContext.Provider>
     </div>
   );
 }
