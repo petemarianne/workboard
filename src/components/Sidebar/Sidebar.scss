@@ -1,19 +1,22 @@
+$border: 1px solid rgba(0, 0, 139, 0.4);
+$color: rgba(0, 0, 139, 0.5);
+
 .sidebar {
-  border: 1px solid rgba(0, 0, 139, 0.4);
+  border: $border;
   height: 100%;
   width: 26%;
   font-size: 3vh;
   font-weight: lighter;
-  color: rgba(0, 0, 139, 0.5);
+  color: $color;
   padding-top: 10px;
 
   .text {
-    border: 1px solid rgba(0, 0, 139, 0.4);
+    border: $border;
     height: 4vh;
     width: 70%;
     font-size: 2vh;
     font-weight: lighter;
-    color: rgba(0, 0, 139, 0.5);
+    color: $color;
     margin: 30px auto 0;
     display: flex;
     align-items: center;
@@ -22,12 +25,12 @@
   }
 
   .image {
-    border: 1px solid rgba(0, 0, 139, 0.4);
+    border: $border;
     height: 10vh;
     width: 70%;
     font-size: 2vh;
     font-weight: lighter;
-    color: rgba(0, 0, 139, 0.5);
+    color: $color;
     margin: 20px auto 0;
     display: flex;
     align-items: center;

@@ -2,20 +2,21 @@ import React, { useContext, useEffect, useState } from 'react';
 import './WorkArea.scss';
 import { ItemsContext } from '../../context/items-content';
 import { Close } from '@material-ui/icons';
+import { PositionAndSize, Size } from '../../interfaces';
 
 export const WorkArea: React.FC = (): JSX.Element => {
     const {images, texts, setTexts, setImages} = useContext(ItemsContext);
 
     const [curId, setCurId] = useState<string>('');
     const [doubleClick, setDoubleClick] = useState<string>('');
-    const [offset, setOffset] = useState([0,0]);
-    const [areaPosAndSize, setAreaPosAndSize] = useState({
+    const [offset, setOffset] = useState<number[]>([0,0]);
+    const [areaPosAndSize, setAreaPosAndSize] = useState<PositionAndSize>({
         top: 0,
         left: 0,
         width: 0,
         height: 0,
     });
-    const [itemSize, setItemSize] = useState({
+    const [itemSize, setItemSize] = useState<Size>({
         width: 0,
         height: 0,
     });
@@ -120,7 +121,6 @@ export const WorkArea: React.FC = (): JSX.Element => {
                 onClick={() => setDoubleClick('')}
             >
                 {images.map(image =>
-                    <>
                         <div
                             key={image.id}
                             className='image'
@@ -129,7 +129,7 @@ export const WorkArea: React.FC = (): JSX.Element => {
                             style={
                                 {
                                     top: !image.position ? undefined : image.position.y <= areaPosAndSize.top ?
-                                        '0' : image.position.y + itemSize.height >= areaPosAndSize.height + areaPosAndSize.top ?
+                                        '0' : image.position.y + itemSize.height >= areaPosAndSize.height + areaPosAndSize?.top ?
                                             `${areaPosAndSize.height - itemSize.height}px` :`calc(${image.position.y}px - ${areaPosAndSize.top}px)`,
                                     left: !image.position ? undefined : image.position.x <= areaPosAndSize.left ?
                                         '0' : image.position.x + itemSize.width >= areaPosAndSize.width + areaPosAndSize.left ?
@@ -146,12 +146,11 @@ export const WorkArea: React.FC = (): JSX.Element => {
                             {image.image ? null :
                                 <label className='label'>
                                     Upload File
-                                    <input type='file' onChange={e => onFileChange(e, image.id)} hidden/>
+                                    <input type='file' onChange={e => onFileChange(e, image.id)} hidden />
                                 </label>
                             }
-                            {image.id === doubleClick && doubleClick ? <Close fontSize='small' color='secondary' className='close' onClick={() => removeItem(image.id)}/> : null}
+                            {image.id === doubleClick && doubleClick ? <Close fontSize='small' color='secondary' className='close' onClick={() => removeItem(image.id)} /> : null}
                         </div>
-                    </>
                 )}
                 {texts.map(text =>
                     <div
@@ -173,11 +172,8 @@ export const WorkArea: React.FC = (): JSX.Element => {
                             border: curId === text.id || doubleClick === text.id ? '2px solid rgba(0, 0, 139, 0.4)' : undefined
                         }}
                     >
-                        <textarea
-                            placeholder='Text...'
-                            className='text'
-                        />
-                        {text.id === doubleClick && doubleClick ? <Close fontSize='small' color='secondary' className='close' onClick={() => removeItem(text.id)}/> : null}
+                        <textarea placeholder='Text...' className='text' />
+                        {text.id === doubleClick && doubleClick ? <Close fontSize='small' color='secondary' className='close' onClick={() => removeItem(text.id)} /> : null}
                     </div>
                 )}
             </div>

@@ -31,7 +31,7 @@ const App: React.FC = (): JSX.Element => {
         }
     }, [texts, images])
 
-    const reset = () => {
+    const reset = (): void => {
         setTexts([]);
         setImages([]);
         localStorage.setItem('workBoardData', JSON.stringify({

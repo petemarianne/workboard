@@ -1,12 +1,14 @@
 $transparent: rgba(255, 255, 255, 0);
+$color1: rgba(0, 0, 139, 0.4);
+$color2: rgba(0, 0, 139, 0.5);
 
 .workarea-container {
-  border: 1px solid rgba(0, 0, 139, 0.4);
+  border: 1px solid $color1;
   height: 100%;
   width: 71%;
   font-size: 3vh;
   font-weight: lighter;
-  color: rgba(0, 0, 139, 0.5);
+  color: $color2;
   padding-top: 10px;
   user-select: none;
   -moz-user-select: none;
@@ -23,12 +25,12 @@ $transparent: rgba(255, 255, 255, 0);
 
     .image {
       position: absolute;
-      border: 1px solid rgba(0, 0, 139, 0.4);
+      border: 1px solid $color1;
       height: 10vh;
       width: 30%;
       font-size: 2vh;
       font-weight: lighter;
-      color: rgba(0, 0, 139, 0.5);
+      color: $color2;
       cursor: pointer;
       font-family: 'Roboto', sans-serif;
       resize: none;
@@ -39,7 +41,7 @@ $transparent: rgba(255, 255, 255, 0);
       background-size: cover;
 
       &:focus {
-        border: 2px solid rgba(0, 0, 139, 0.4);
+        border: 2px solid $color1;
       }
     }
 
@@ -50,7 +52,7 @@ $transparent: rgba(255, 255, 255, 0);
       border: 2px solid $transparent;
 
       &:focus {
-        border-color: rgba(0, 0, 139, 0.4);
+        border-color: $color1;
       }
 
       .text {
