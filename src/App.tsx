@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextItem, ImageItem } from './interfaces';
 import { ItemsContext } from './context/items-content';
 import './App.scss';
-import { Sidebar, Workarea } from './components';
+import { Sidebar, WorkArea } from './components';
 import { Button } from '@material-ui/core';
 
 const App: React.FC = (): JSX.Element => {
@@ -23,7 +23,7 @@ const App: React.FC = (): JSX.Element => {
         }, [])
 
     useEffect(() => {
-        if (JSON.stringify(texts) !== '[]' && JSON.stringify(images) !== '[]') {
+        if (JSON.stringify(texts) !== '[]' || JSON.stringify(images) !== '[]') {
             localStorage.setItem('workBoardData', JSON.stringify({
                 texts,
                 images,
@@ -46,7 +46,7 @@ const App: React.FC = (): JSX.Element => {
         <ItemsContext.Provider value={{texts, images, setImages, setTexts}}>
             <div className='areas-wrapper'>
                 <Sidebar />
-                <Workarea />
+                <WorkArea />
             </div>
             <Button color='primary' variant='contained' className='button' onClick={reset}>Reset</Button>
         </ItemsContext.Provider>

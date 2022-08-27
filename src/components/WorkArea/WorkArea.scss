@@ -25,7 +25,7 @@ $transparent: rgba(255, 255, 255, 0);
       position: absolute;
       border: 1px solid rgba(0, 0, 139, 0.4);
       height: 10vh;
-      width: 300px;
+      width: 30%;
       font-size: 2vh;
       font-weight: lighter;
       color: rgba(0, 0, 139, 0.5);
@@ -43,23 +43,34 @@ $transparent: rgba(255, 255, 255, 0);
       }
     }
 
-    .text {
+    .text-wrapper {
       position: absolute;
-      border: 2px solid $transparent;
       height: 4vh;
-      width: 200px;
-      font-size: 2vh;
-      font-weight: lighter;
-      color: #757575;
-      cursor: pointer;
-      font-family: 'Roboto', sans-serif;
-      resize: none;
-      background-color: $transparent;
-      outline: none;
+      width: 20%;
+      border: 2px solid $transparent;
 
       &:focus {
         border-color: rgba(0, 0, 139, 0.4);
       }
+
+      .text {
+        font-size: 2vh;
+        font-weight: lighter;
+        color: #757575;
+        cursor: pointer;
+        font-family: 'Roboto', sans-serif;
+        resize: none;
+        background-color: $transparent;
+        outline: none;
+        border: none;
+      }
+    }
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
     }
   }
 }
